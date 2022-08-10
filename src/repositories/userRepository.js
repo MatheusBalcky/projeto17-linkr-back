@@ -5,6 +5,10 @@ async function getUserByEmail(email){
     return db.query("SELECT * FROM users WHERE email = $1", [email]);
 }
 
+async function getUserByUsername(username){
+    return db.query("SELECT * FROM users WHERE username = $1", [username]);
+}
+
 async function createUser(email, password, username, pictureUrl){
     const passwordHash = bcrypt.hashSync(password, 10);
 
@@ -18,6 +22,7 @@ async function createUser(email, password, username, pictureUrl){
 
 const userRepository = {
     getUserByEmail,
+    getUserByUsername,
     createUser
 };
 
