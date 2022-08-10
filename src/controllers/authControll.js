@@ -1,13 +1,19 @@
-import { createToken } from '../services/jwt.js';
-import { verifyToken } from '../services/jwt.js';
+import { createToken, verifyToken } from '../services/jwt.js';
+import { userRepos } from '../repositories/userRepository.js';
+
 
 export async function verifyTokenRoute (req,res){
     const { token } = req.body;
+    
     const result = verifyToken(token);
     if(!result){
         return res.sendStatus(401);
     }
-    return res.sendStatus(200);
+    
+    const userData = await userRepos.findUserById(result.idUser);
+    delete userData.password;
+    
+    return res.status(200).send(userData);
 }
 
 export async function loginControll (req,res){

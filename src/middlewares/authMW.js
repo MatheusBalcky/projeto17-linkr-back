@@ -18,9 +18,9 @@ export async function loginMW (req, res, next){
 
         res.locals.user = {
             id: verifyEmail[0].id,
-            name: verifyEmail[0].name,
-            lastName: verifyEmail[0].lastName,
-            email: verifyEmail[0].email
+            username: verifyEmail[0].username,
+            email: verifyEmail[0].email,
+            pictureUrl: verifyEmail[0].pictureUrl
         };
 
         next()
