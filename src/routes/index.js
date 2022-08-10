@@ -10,8 +10,6 @@ router.use(authRouter);
 
 
 
-
-
 router.use('/test', (req, res) => {
     res.status(200).send('Sounds good!')
 });
