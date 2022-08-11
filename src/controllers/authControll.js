@@ -2,8 +2,8 @@ import { createToken, verifyToken } from '../services/jwt.js';
 import userRepository from "../repositories/userRepository.js";
 
 export async function verifyTokenRoute (req,res){
-    const { token } = req.body;
-    const result = verifyToken(token);
+    const { tokenToVerify } = req.body;
+    const result = verifyToken(tokenToVerify);
     if(!result){
         return res.sendStatus(401);
     }
