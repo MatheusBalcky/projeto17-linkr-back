@@ -4,10 +4,14 @@ import userRepository from "../repositories/userRepository.js";
 export async function verifyTokenRoute (req,res){
     const { tokenToVerify } = req.body;
     const result = verifyToken(tokenToVerify);
+    console.log(result)
     if(!result){
         return res.sendStatus(401);
     }
-    return res.sendStatus(200);
+    const userData = await userRepository.findUserById(result.idUser);
+    delete userData.password;
+
+    return res.status(200).send(userData);
 }
 
 export async function loginControll (req,res){
