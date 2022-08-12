@@ -7,6 +7,12 @@ CREATE TABLE "users" (
 	"createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE "sessions" (
+	"id" serial PRIMARY KEY,
+	"userId" integer NOT NULL REFERENCES "users"("id"),
+	"createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
+);
+
 CREATE TABLE "posts" (
     "id" serial PRIMARY KEY,
     "url" varchar(200) NOT NULL,
