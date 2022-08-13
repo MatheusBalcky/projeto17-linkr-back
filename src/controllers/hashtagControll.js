@@ -18,10 +18,21 @@ export async function getPostsByHashtag (req, res){
     const { hashtag } = req.params;
     
     try {
-        
+        const result = await hashtagsRepo.findHashtagId(hashtag);
+
+        if(result.length < 1){
+            return res.sendStatus(404);
+        }
+
+        const posts = await hashtagsRepo.findPostsByHashtag(result[0].id);
+
+        console.table(posts)
+
+        return res.sendStatus(200);
     } catch (error) {
-        
+        console.log(error);
+        res.sendStatus(500);
     }
 
-    res.sendStatus(200);
+    
 }
