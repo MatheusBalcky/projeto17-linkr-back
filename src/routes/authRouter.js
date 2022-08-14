@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validateSchema } from "../middlewares/validateSchema.js";
+import { validateSchema } from "../middlewares/validateSchemaMW.js";
 import { loginSchema, userSchema } from "../schemas/authSchemas.js";
 import { loginController, verifyTokenRoute, signUp } from "../controllers/authController.js";
 import { loginMW } from "../middlewares/authMW.js";
