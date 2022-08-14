@@ -1,6 +1,6 @@
 import { db } from "../db/postgres.js";
 
-async function publishPost(postUrl, postDescription, userId) {
+async function submitPost(postUrl, postDescription, userId) {
     return db.query(`
     INSERT INTO posts ("url", "text", "userId") 
     VALUES 
@@ -28,6 +28,6 @@ async function getPosts() {
 }
 
 export const postsRepository = {
-    publishPost,
+    submitPost,
     getPosts
 };

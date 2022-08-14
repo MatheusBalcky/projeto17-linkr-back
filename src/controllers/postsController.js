@@ -1,12 +1,11 @@
 import { postsRepository } from "../repositories/postsRepository.js";
 
 export async function publishPost(req, res) {
-    //const userId = res.locals.userId;
-    const userId = 1;
+    const userId = res.locals.userId;
     const {postUrl, postDescription} = req.body;
 
     try {
-        const query = await postsRepository.publishPost(postUrl, postDescription, userId);
+        const query = await postsRepository.submitPost(postUrl, postDescription, userId);
         res.sendStatus(201);
         return;
     }
