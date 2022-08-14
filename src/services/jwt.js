@@ -1,6 +1,4 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export function createToken (payload){
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
