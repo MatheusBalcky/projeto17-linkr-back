@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { validateSchema } from "../middlewares/validateSchemaMW.js";
-import { loginSchema, userSchema } from "../schemas/authSchemas.js";
+import { signInSchema, signUpSchema } from "../schemas/authSchemas.js";
 import { loginController, verifyTokenRoute, signUp } from "../controllers/authController.js";
 import { loginMW } from "../middlewares/authMW.js";
 
 const authRouter = Router();
 
 authRouter.post('/verifytoken', verifyTokenRoute);
-authRouter.post('/signin', validateSchema(loginSchema), loginMW, loginController);
-authRouter.post("/sign-up", validateSchema(userSchema), signUp);
+authRouter.post('/signin', validateSchema(signInSchema), loginMW, loginController);
+authRouter.post("/sign-up", validateSchema(signUpSchema), signUp);
 
 
 
