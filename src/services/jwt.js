@@ -10,6 +10,6 @@ export function verifyToken(token){
         const verifyToken =  jwt.verify(token, process.env.JWT_SECRET);
         return verifyToken;
     } catch (error) {
-        return false;
+        return error;
     }
 }
