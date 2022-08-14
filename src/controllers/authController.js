@@ -14,7 +14,7 @@ export async function verifyTokenRoute (req,res){
     return res.status(200).send(userData);
 }
 
-export async function loginControll (req,res){
+export async function loginController (req,res){
     const { user } = res.locals;
     
     try {
