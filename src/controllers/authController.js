@@ -9,7 +9,7 @@ export async function verifyTokenRoute (req,res){
     if(!result){
         return res.sendStatus(401);
     }
-    const userData = await userRepository.findUserById(result.idUser);
+    const userData = await userRepository.findUserById(result.userId);
     delete userData.password;
 
     return res.status(200).send(userData);
