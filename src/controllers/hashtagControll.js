@@ -24,13 +24,9 @@ export async function getPostsByHashtag (req, res){
 
         const posts = await hashtagsRepo.findPostsByHashtag(result[0].id);
 
-        //console.table(posts)
-
-        return res.sendStatus(200);
+        return res.status(200).send(posts);
     } catch (error) {
         console.log(error);
         return res.sendStatus(500);
     }
-
-    
 }

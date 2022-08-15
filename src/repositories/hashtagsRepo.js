@@ -22,16 +22,19 @@ async function findHashtagByName (hashtagName){
 
 async function findPostsByHashtag (hashtagId){
     const { rows: result } = await db.query(`
-        SELECT posts.*,
-        json_build_object 
-            ('id', users.id,
-            'username', users.username,
-            'pictureUrl', users."pictureUrl") as "user"
+        SELECT
+            posts.id AS id, 
+            posts.url AS url, 
+            posts.text AS text, 
+            posts."createdAt" AS "createdAt",
+            users.username AS username,
+            users."pictureUrl" AS "userPictureUrl"
         FROM posts
-        JOIN "hashtagsPosts"
-        ON "hashtagsPosts"."postId" = posts.id
-        JOIN users ON posts."userId" = users.id
-        WHERE "hashtagsPosts"."hashtagId" = $1`, [hashtagId]);
+            JOIN "hashtagsPosts" ON "hashtagsPosts"."postId" = posts.id
+            JOIN users ON posts."userId" = users.id
+        WHERE "hashtagsPosts"."hashtagId" = $1
+        ORDER BY "createdAt" DESC
+        LIMIT 20`, [hashtagId]);
     return result
 }
 
