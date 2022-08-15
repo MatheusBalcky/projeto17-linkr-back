@@ -1,11 +1,14 @@
 import { db } from "../db/postgres.js";
 
-async function submitPost(postUrl, postDescription, userId) {
+async function submitPost(postUrl, urlTitle, urlThumbnail, urlDescription, postDescription, userId) {
     return db.query(`
-    INSERT INTO posts ("url", "text", "userId") 
-    VALUES 
-      ($1, $2, $3)`,
-      [postUrl, postDescription, userId]);
+    INSERT INTO posts (
+        "url", "urlTitle", "urlThumbnail", 
+        "urlDescription", "text", "userId"
+      ) 
+      VALUES 
+        ($1, $2, $3, $4, $5, $6)`,
+      [postUrl, urlTitle, urlThumbnail, urlDescription, postDescription, userId]);
 
 }
 
