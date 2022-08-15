@@ -16,6 +16,9 @@ CREATE TABLE "sessions" (
 CREATE TABLE "posts" (
     "id" serial PRIMARY KEY,
     "url" varchar(200) NOT NULL,
+    "urlTitle" varchar(200) NOT NULL,
+    "urlThumbnail" varchar(200) NOT NULL,
+    "urlDescription" varchar(240) NOT NULL,
     "text" varchar(250),
     "userId" integer NOT NULL REFERENCES "users"("id"),
     "createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
