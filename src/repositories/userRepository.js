@@ -25,11 +25,18 @@ async function createUser(email, password, username, pictureUrl){
     );
 }
 
+async function createSession(userId){
+    return(
+        db.query(`INSERT INTO sessions ("userId") VALUES ($1)`,[userId])
+    );
+}
+
 const userRepository = {
     getUserByEmail,
     getUserByUsername,
     findUserById,
-    createUser
+    createUser,
+    createSession
 };
 
 export default userRepository;

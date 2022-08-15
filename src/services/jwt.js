@@ -1,17 +1,15 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export function createToken (payload){
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
-    return token
+    return token;
 }
 
 export function verifyToken(token){
     try {
         const verifyToken =  jwt.verify(token, process.env.JWT_SECRET);
-        return verifyToken
+        return verifyToken;
     } catch (error) {
-        return false
+        return error;
     }
 }

@@ -1,12 +1,11 @@
-import { db } from "../db/postgres.js";
+import { postsRepository } from "../repositories/postsRepository.js";
 
 export async function publishPost(req, res) {
-    //const userId = res.locals.userId;
-    const userId = 1;
+    const userId = res.locals.userId;
     const {postUrl, postDescription} = req.body;
 
     try {
-        const query = await db.query(`INSERT INTO posts ("url","text","userId") VALUES ($1,$2,$3)`,[postUrl, postDescription, userId]);
+        const query = await postsRepository.submitPost(postUrl, postDescription, userId);
         res.sendStatus(201);
         return;
     }
@@ -18,8 +17,7 @@ export async function publishPost(req, res) {
 
 export async function getPosts(req, res) {
     try {
-        const query = await db.query(`SELECT p.id AS id, u.username AS username, u."pictureUrl" AS "userPictureUrl", p.url AS url, p.text AS text, p."createdAt" AS "createdAt" 
-        FROM posts p JOIN users u ON u.id = p."userId" ORDER BY "createdAt" DESC LIMIT 20`);
+        const query = await postsRepository.getPosts();
         res.status(200).send(query.rows);
         return;
     }

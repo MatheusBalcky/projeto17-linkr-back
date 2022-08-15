@@ -1,12 +1,12 @@
 import joi from "joi";
 
 
-export const loginSchema = joi.object({
+export const signInSchema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().required()
 })
 
-export const userSchema = joi.object({
+export const signUpSchema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().required(),
     username: joi.string().required(),

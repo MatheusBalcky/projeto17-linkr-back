@@ -1,5 +1,6 @@
 import { createToken, verifyToken } from '../services/jwt.js';
 import userRepository from "../repositories/userRepository.js";
+import bcrypt from 'bcrypt';
 
 export async function verifyTokenRoute (req,res){
     const { tokenToVerify } = req.body;
@@ -8,23 +9,34 @@ export async function verifyTokenRoute (req,res){
     if(!result){
         return res.sendStatus(401);
     }
-    const userData = await userRepository.findUserById(result.idUser);
+    const userData = await userRepository.findUserById(result.userId);
     delete userData.password;
 
     return res.status(200).send(userData);
 }
 
-export async function loginController (req,res){
-    const { user } = res.locals;
+export async function signIn (req,res){
+    const authUser = req.body;
     
     try {
-        
-        const token = createToken({ idUser: user.id});
+        const query = await userRepository.getUserByEmail(authUser.email);
 
-        res.status(200).send({
-            ...user,
-            token
+        if(query.rowCount === 0) {
+            return res.sendStatus(401);
+        }
+
+        if(!bcrypt.compareSync(authUser.password, query.rows[0].password)) {
+            return res.status(401).send("Senha incorreta!");
+        }
+
+        const session = await userRepository.createSession(query.rows[0].id);
+
+        const token = createToken({
+            userId: query.rows[0].id,
+            username: query.rows[0].username
         });
+
+        res.status(200).send({token});
 
     } catch (error) {
 
