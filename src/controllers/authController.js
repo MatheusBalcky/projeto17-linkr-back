@@ -5,10 +5,10 @@ import bcrypt from 'bcrypt';
 export async function verifyTokenRoute (req,res){
     const { tokenToVerify } = req.body;
     const result = verifyToken(tokenToVerify);
-    console.log(result)
     if(!result){
         return res.sendStatus(401);
     }
+    
     const userData = await userRepository.findUserById(result.userId);
     delete userData.password;
 
@@ -20,7 +20,7 @@ export async function signIn (req,res){
     
     try {
         const query = await userRepository.getUserByEmail(authUser.email);
-
+        
         if(query.rowCount === 0) {
             return res.sendStatus(401);
         }
@@ -35,8 +35,14 @@ export async function signIn (req,res){
             userId: query.rows[0].id,
             username: query.rows[0].username
         });
+        
+        const userData = query.rows[0];
+        delete userData.password
 
-        res.status(200).send({token});
+        res.status(200).send({
+                ...userData,
+                token
+            });
 
     } catch (error) {
 
