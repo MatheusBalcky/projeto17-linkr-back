@@ -7,10 +7,8 @@ export async function getHashtags (req, res){
         res.status(200).send(trendingList);
 
     } catch (error) {
-
         console.log(error);
-        res.sendStatus(500);
-        
+        return res.sendStatus(500);
     }
 }
 
@@ -31,7 +29,7 @@ export async function getPostsByHashtag (req, res){
         return res.sendStatus(200);
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
 
     

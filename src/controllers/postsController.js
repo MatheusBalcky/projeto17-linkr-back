@@ -10,7 +10,8 @@ export async function publishPost(req, res) {
         return;
     }
     catch(error) {
-        res.status(404).send(error);
+        console.log(error);
+        res.sendStatus(500);
         return;
     }
 }
@@ -22,7 +23,7 @@ export async function getPosts(req, res) {
         return;
     }
     catch(error) {
-        res.status(400).send("Ocorreu um erro");
+        res.status(500).send("Ocorreu um erro");
         return;
     }
 }

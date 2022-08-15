@@ -9,7 +9,7 @@ export default async function validateToken(req, res, next) {
     }
 
     try{
-        const verification = verifyToken(token);
+        const verification = await verifyToken(token);
         res.locals.userId = verification.userId;
         next();
     }
