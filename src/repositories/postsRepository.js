@@ -18,7 +18,10 @@ async function getPosts() {
     SELECT 
         p.id AS id, 
         u.username AS username, 
-        u."pictureUrl" AS "userPictureUrl", 
+        u."pictureUrl" AS "userPictureUrl",
+        p."urlTitle" AS "urlTitle",
+        p."urlThumbnail" AS "urlThumbnail",
+        p."urlDescription" AS "urlDescription",
         p.url AS url, 
         p.text AS text, 
         p."createdAt" AS "createdAt" 
