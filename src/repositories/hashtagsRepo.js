@@ -1,6 +1,6 @@
 import { db } from "../db/postgres.js";
 
-async function findHashtags () {
+async function findTrendingHashtags () {
     const {rows: result} = await db.query(`
         SELECT "hashtagId", hashtags.name, COUNT("hashtagId") as "postsAmount"
         FROM "hashtagsPosts"
@@ -13,7 +13,7 @@ async function findHashtags () {
     return result
 }
 
-async function findHashtagId (hashtagName){
+async function findHashtagByName (hashtagName){
     const {rows: result} = await db.query(`
         SELECT id FROM hashtags WHERE hashtags.name = $1
         `,[hashtagName]);
@@ -22,26 +22,44 @@ async function findHashtagId (hashtagName){
 
 async function findPostsByHashtag (hashtagId){
     const { rows: result } = await db.query(`
-        SELECT posts.*,
-        json_build_object 
-            ('id', users.id,
-            'username', users.username,
-            'pictureUrl', users."pictureUrl") as "user"
+        SELECT
+            posts.id AS id, 
+            posts.url AS url, 
+            posts.text AS text, 
+            posts."createdAt" AS "createdAt",
+            users.username AS username,
+            users."pictureUrl" AS "userPictureUrl"
         FROM posts
-        JOIN "hashtagsPosts"
-        ON "hashtagsPosts"."postId" = posts.id
-        JOIN users ON posts."userId" = users.id
-        WHERE "hashtagsPosts"."hashtagId" = $1`, [hashtagId]);
+            JOIN "hashtagsPosts" ON "hashtagsPosts"."postId" = posts.id
+            JOIN users ON posts."userId" = users.id
+        WHERE "hashtagsPosts"."hashtagId" = $1
+        ORDER BY "createdAt" DESC
+        LIMIT 20`, [hashtagId]);
     return result
+}
+
+async function insertPostWithHashtag (postId, hashtagId){
+    const { rows: result } = await db.query(`
+        INSERT INTO "hashtagsPosts" ("postId", "hashtagId")
+        VALUES ($1, $2)`, [postId, hashtagId]);
+    return result
+}
+
+async function insertNewHashtag (hashtagName){
+    const {rows: result} = await db.query(`
+    INSERT INTO hashtags (name)
+    VALUES ($1) RETURNING id`,[hashtagName]);
+    return result;
 }
 
 
 
-
 const hashtagsRepo = {
-    findHashtags,
-    findHashtagId,
-    findPostsByHashtag
+    findTrendingHashtags,
+    findHashtagByName,
+    findPostsByHashtag,
+    insertPostWithHashtag,
+    insertNewHashtag
 }
 
 export default hashtagsRepo;

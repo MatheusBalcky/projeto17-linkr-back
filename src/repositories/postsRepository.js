@@ -7,7 +7,8 @@ async function submitPost(postUrl, urlTitle, urlThumbnail, urlDescription, postD
         "urlDescription", "text", "userId"
       ) 
       VALUES 
-        ($1, $2, $3, $4, $5, $6)`,
+        ($1, $2, $3, $4, $5, $6)
+    RETURNING id`,
       [postUrl, urlTitle, urlThumbnail, urlDescription, postDescription, userId]);
 
 }
