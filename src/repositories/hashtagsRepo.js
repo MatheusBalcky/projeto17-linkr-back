@@ -27,6 +27,9 @@ async function findPostsByHashtag (hashtagId){
             posts.url AS url, 
             posts.text AS text, 
             posts."createdAt" AS "createdAt",
+            posts."urlTitle" AS "urlTitle",
+            posts."urlThumbnail" AS "urlThumbnail",
+            posts."urlDescription" AS "urlDescription",
             users.username AS username,
             users."pictureUrl" AS "userPictureUrl"
         FROM posts
