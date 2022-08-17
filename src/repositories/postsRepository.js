@@ -16,7 +16,8 @@ async function submitPost(postUrl, urlTitle, urlThumbnail, urlDescription, postD
 async function getPosts() {
     return db.query(`
     SELECT 
-        p.id AS id, 
+        p.id AS id,
+        u.id AS userId,
         u.username AS username, 
         u."pictureUrl" AS "userPictureUrl",
         p."urlTitle" AS "urlTitle",
@@ -34,7 +35,19 @@ async function getPosts() {
         20`);
 }
 
+export async function updateTextPost (postId, newText){
+    await db.query(`DELETE FROM "hashtagsPosts" WHERE "postId" = $1`, [postId]);
+    await db.query(`UPDATE posts SET text = $1 WHERE id = $2`, [newText, postId])
+}
+
+export async function deletePostQuery (postId){
+    await db.query(`DELETE FROM "hashtagsPosts" WHERE "postId" = $1`,[postId]);
+    await db.query(`DELETE FROM posts WHERE id = $1`, [postId]);
+}
+
 export const postsRepository = {
     submitPost,
-    getPosts
+    getPosts,
+    deletePostQuery,
+    updateTextPost
 };
