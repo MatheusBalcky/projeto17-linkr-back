@@ -7,14 +7,14 @@ async function getCommentsFromPost(postId) {
         u.id AS "userId",
         u.username AS username,
         u."pictureUrl" AS "userPictureUrl",
-        c.text AS text,
+        c.text AS text
     FROM
         comments c
         JOIN users u ON u.id = c."userId"
     WHERE
         c."postId" = $1 
     ORDER BY
-        "createdAt" ASC`, [postId]);
+        c."createdAt" ASC`, [postId]);
 }
 
 async function submitComment(postId, userId, text) {

@@ -8,7 +8,7 @@ export async function getCommentsFromPost(req, res) {
         return res.status(200).send(query.rows);
     }
     catch(error) {
-        return res.status(500).send("Ocorreu um erro");
+        return res.status(500).send(error);
     }
 }
 
