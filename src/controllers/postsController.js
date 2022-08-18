@@ -44,6 +44,18 @@ export async function getPosts(req, res) {
     }
 }
 
+export async function getPostsFromUser(req, res) {
+    const id = req.params.id;
+
+    try{
+        const query = await postsRepository.getPostsFromUser(id);
+        return res.status(200).send(query.rows);
+    }
+    catch(error) {
+        return res.status(500).send("Ocorreu um erro");
+    }
+}
+
 export async function deletePost(req, res){
     const { id } = req.params;
     try {
