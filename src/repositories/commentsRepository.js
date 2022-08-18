@@ -17,6 +17,16 @@ async function getCommentsFromPost(postId) {
         "createdAt" ASC`, [postId]);
 }
 
+async function submitComment(postId, userId, text) {
+    return db.query(`
+    INSERT INTO comments (
+        "postId", "userId", "text"
+    )
+    VALUES
+        ($1, $2, $3)`, [postId, userId, text]);
+}
+
 export const commentsRepository = {
-    getCommentsFromPost
+    getCommentsFromPost,
+    submitComment
 };

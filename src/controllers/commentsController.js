@@ -11,3 +11,16 @@ export async function getCommentsFromPost(req, res) {
         return res.status(500).send("Ocorreu um erro");
     }
 }
+
+export async function publishComment(req, res) {
+    const {userId} = res.locals;
+    const {text, postId} = req.body;
+
+    try{
+        const query = await commentsRepository.submitComment(postId, userId, text);
+        return res.sendStatus(201);
+    }
+    catch(error) {
+        return res.sendStatus(500);
+    }
+}
