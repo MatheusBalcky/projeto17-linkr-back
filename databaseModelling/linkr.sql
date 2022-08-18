@@ -43,3 +43,11 @@ CREATE TABLE "likes" (
     "userId" integer NOT NULL REFERENCES "users"("id"),
     "createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE "comments" (
+    "id" serial PRIMARY KEY,
+    "postId" integer NOT NULL REFERENCES "posts"("id"),
+    "userId" integer NOT NULL REFERENCES "users"("id"),
+    "text" varchar(250) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
+);
