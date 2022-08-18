@@ -16,8 +16,8 @@ CREATE TABLE "sessions" (
 CREATE TABLE "posts" (
     "id" serial PRIMARY KEY,
     "url" varchar(200) NOT NULL,
-    "urlTitle" varchar(250),
-    "urlThumbnail" varchar(250),
+    "urlTitle" text,
+    "urlThumbnail" text,
     "urlDescription" text,
     "text" varchar(250),
     "userId" integer NOT NULL REFERENCES "users"("id"),
