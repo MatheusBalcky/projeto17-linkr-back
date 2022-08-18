@@ -35,6 +35,30 @@ async function getPosts() {
         20`);
 }
 
+async function getPostsFromUser(id) {
+    return db.query(`
+    SELECT 
+        p.id AS id,
+        u.id AS userId,
+        u.username AS username, 
+        u."pictureUrl" AS "userPictureUrl",
+        p."urlTitle" AS "urlTitle",
+        p."urlThumbnail" AS "urlThumbnail",
+        p."urlDescription" AS "urlDescription",
+        p.url AS url, 
+        p.text AS text, 
+        p."createdAt" AS "createdAt" 
+    FROM 
+        posts p 
+        JOIN users u ON u.id = p."userId"
+    WHERE
+        u.id = $1
+    ORDER BY 
+        "createdAt" DESC 
+    LIMIT 
+        20`, [id]);
+}
+
 export async function updateTextPost (postId, newText){
     await db.query(`DELETE FROM "hashtagsPosts" WHERE "postId" = $1`, [postId]);
     await db.query(`UPDATE posts SET text = $1 WHERE id = $2`, [newText, postId])
@@ -48,6 +72,7 @@ export async function deletePostQuery (postId){
 export const postsRepository = {
     submitPost,
     getPosts,
+    getPostsFromUser,
     deletePostQuery,
     updateTextPost
 };
