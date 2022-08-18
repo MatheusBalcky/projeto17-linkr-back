@@ -14,6 +14,19 @@ async function getUserByUsername(username){
     return db.query("SELECT * FROM users WHERE username = $1", [username]);
 }
 
+async function getUsersThatMatch(pattern){
+    return db.query(`
+    SELECT
+        u.id AS id,
+        u.username AS username,
+        u."pictureUrl" AS "pictureUrl"
+    FROM
+        users u
+    WHERE
+			u.username ILIKE $1
+    `, [`%${pattern}%`]);
+}
+
 async function createUser(email, password, username, pictureUrl){
     const passwordHash = bcrypt.hashSync(password, 10);
 
@@ -35,6 +48,7 @@ const userRepository = {
     getUserByEmail,
     getUserByUsername,
     findUserById,
+    getUsersThatMatch,
     createUser,
     createSession
 };
