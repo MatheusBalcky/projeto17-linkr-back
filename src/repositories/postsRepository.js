@@ -13,7 +13,7 @@ async function submitPost(postUrl, urlTitle, urlThumbnail, urlDescription, postD
 
 }
 
-async function getPosts() {
+async function getPosts(limit) {
     return db.query(`
     SELECT 
         p.id AS id,
@@ -32,7 +32,7 @@ async function getPosts() {
     ORDER BY 
         "createdAt" DESC 
     LIMIT 
-        20`);
+        $1`, [limit]);
 }
 
 export async function updateTextPost (postId, newText){

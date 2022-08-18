@@ -34,8 +34,9 @@ export async function publishPost(req, res) {
 }
 
 export async function getPosts(req, res) {
+    const { limit } = req.query
     try {
-        const query = await postsRepository.getPosts();
+        const query = await postsRepository.getPosts(limit);
         return res.status(200).send(query.rows);
     }
     catch(error) {

@@ -13,6 +13,6 @@ export default async function metadataScraperMW(req, res, next) {
     }
     catch(error) {
         console.log(error);
-        return res.sendStatus(404);
+        next();
     }
 }
