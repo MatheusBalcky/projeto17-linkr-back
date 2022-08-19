@@ -97,3 +97,15 @@ export async function updateTextPost(req, res){
         res.sendStatus(500);
     }
 }
+
+export async function rePost (req, res){
+    const { postId } = req.params;
+    const userId = res.locals.userId;
+    try {
+        await postsRepository.rePost(userId, postId);
+        return res.sendStatus(200);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}

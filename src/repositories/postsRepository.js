@@ -69,10 +69,17 @@ export async function deletePostQuery (postId){
     await db.query(`DELETE FROM posts WHERE id = $1`, [postId]);
 }
 
+export async function rePost (userId, postId){
+    return await db.query(`
+    INSERT INTO reposts ("userId", "postId")
+    VALUES ($1, $2)`, [userId, postId]);
+}
+
 export const postsRepository = {
     submitPost,
     getPosts,
     getPostsFromUser,
     deletePostQuery,
-    updateTextPost
+    updateTextPost,
+    rePost
 };
