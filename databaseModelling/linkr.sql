@@ -16,8 +16,8 @@ CREATE TABLE "sessions" (
 CREATE TABLE "posts" (
     "id" serial PRIMARY KEY,
     "url" varchar(200) NOT NULL,
-    "urlTitle" varchar(250),
-    "urlThumbnail" varchar(250),
+    "urlTitle" text,
+    "urlThumbnail" text,
     "urlDescription" text,
     "text" varchar(250),
     "userId" integer NOT NULL REFERENCES "users"("id"),
@@ -41,5 +41,13 @@ CREATE TABLE "likes" (
     "id" serial PRIMARY KEY,
     "postId" integer NOT NULL REFERENCES "posts"("id"),
     "userId" integer NOT NULL REFERENCES "users"("id"),
+    "createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "comments" (
+    "id" serial PRIMARY KEY,
+    "postId" integer NOT NULL REFERENCES "posts"("id"),
+    "userId" integer NOT NULL REFERENCES "users"("id"),
+    "text" varchar(250) NOT NULL,
     "createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
 );
